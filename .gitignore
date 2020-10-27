@@ -1,3 +1,4 @@
 # for python
 *.pyc
 /migrations/
+/__pycache__/
