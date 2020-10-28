@@ -14,8 +14,34 @@ def index(request):
 
 @api_view(['GET', 'POST'])
 def letter_list(request):
-    pass
+    if request.method == 'GET':
+        letters = CoverLetter.objects.all()
+        letters_serializer = LetterSerializer(letters, many=True)
+        return JsonResponse(letters_serializer.data, safe=False)
+    elif request.method == 'POST':
+        letter_data = JSONParser().parse(request)
+        letter_serializer = LetterSerializer(data=letter_data)
+        if letter_serializer.is_valid():
+            letter_serializer.save()
+            return JsonResponse(letter_serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(letter_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def letter_detail(request):
-    pass
+def letter_detail(request, pk):
+    try: 
+        letter = CoverLetter.objects.get(pk=pk) 
+    except Exception: 
+        return JsonResponse({'message': 'The letter does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        return JsonResponse(LetterSerializer(letter).data)
+    elif request.method == 'PUT':
+        letter_data = JSONParser().parse(request)
+        letter_serializer = LetterSerializer(letter, data=letter_data)
+        if letter_serializer.is_valid():
+            letter_serializer.save()
+            return JsonResponse(letter_serializer.data)
+        return JsonResponse(letter_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        letter.delete()
+        return JsonResponse({'message': 'The letter was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT) 
