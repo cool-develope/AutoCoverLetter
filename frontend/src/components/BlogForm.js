@@ -33,7 +33,7 @@ const BlogForm = (props) => {
             <Form>
                 <FormGroup>
                     <Label for="title">Title</Label>
-                    <Input type="text" name="title" id="title" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)}/>
+                    <Input type="text" name="title" id="title" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} autoFocus />
                 </FormGroup>
                 <FormGroup>
                     <Label for="letter">Letter Area</Label>

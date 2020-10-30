@@ -13,7 +13,7 @@ const BlogCard = (props) => {
             <CardBody>
                 <CardTitle className="font-weight-bold">{ letter['title'] }</CardTitle>
                 <CardSubtitle className="font-italic">Created { letter['created_at'].substring(0, 10) } by { letter.username }</CardSubtitle>
-                <CardText>{ convert(letter['message']).substring(0, 150) } .....</CardText>
+                <CardText>{ convert(letter['message'])['text'].substring(0, 150) } .....</CardText>
             </CardBody>
         </Card>
     )
