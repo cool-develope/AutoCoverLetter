@@ -3,13 +3,15 @@ import { render } from "react-dom";
 import BlogForm from "./components/BlogForm";
 import BlogCard from "./components/BlogCard";
 import NavHeader from "./components/NavHeader";
-import { Container, Row, Col } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import BlogApp from "./components/BlogApp";
 
 const App = (props) => {
     const [create, setCreate] = useState(false);
     const [letters, setLetters] = useState([]);
     const [letter, setLetter] = useState(null);
+    const [cletter, setCletter] = useState(null);
+    const [method, setMethod] = useState("Create");
     const [loaded, setLoaded] = useState(false);
     const [placeholder, setPlaceholder] = useState("Loading");
 
@@ -18,8 +20,15 @@ const App = (props) => {
     };
 
     const clickCreate = (isModal) => {
+        setCletter(null);
         setCreate(isModal);
-        setLetter(null);
+        setMethod("Create");
+    }
+
+    const updateCreate = () => {
+        setCletter(letter);
+        setCreate(!create);
+        setMethod("Update");
     }
 
     useEffect(() => {
@@ -32,24 +41,28 @@ const App = (props) => {
         })
         .then(data => {
             setLoaded(true);
-            setLetters(data);    
+            setLetters(data);
+            setLetter(data[0]);  
         });
     }, [])
 
     return (
         <Fragment>
-            <BlogForm formState={create} toggle={setCreate} letter={letter} createLetter={createLetter} />
+            <BlogForm method={method} formState={create} toggle={setCreate} letter={cletter} createLetter={createLetter} />
             <NavHeader isOpen={create} setCreate={clickCreate}/>
             <Row className="mx-auto">
                 <Col xs="3">
                     {
                         letters.map(letter => (
-                            <BlogCard key={letter.id} letter={letter} setLetter={setLetter} />
+                            <BlogCard key={letter.id} letter={letter} setLetter={letter => {
+                                setLetter(letter);
+                                setCletter(letter);
+                            }} />
                         ))
                     }
                 </Col>
                 <Col xs="9">
-                    <BlogApp letter={ letter|| letters[0] } />
+                    <BlogApp letter={ letter } updateCreate={ updateCreate }/>
                 </Col>
             </Row>
         </Fragment>

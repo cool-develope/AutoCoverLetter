@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Form, FormGroup, Label, Input, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { isLogin } from '../utils/auth';
 
 const BlogForm = (props) => {
   const {
+    method,
     formState,
     toggle:setState,
     letter,
@@ -26,7 +28,7 @@ const BlogForm = (props) => {
 
   return (
     <Modal isOpen={formState} toggle={toggle} className="modal-lg">
-        <ModalHeader toggle={toggle}>Create New CoverLetter</ModalHeader>
+        <ModalHeader toggle={toggle}>{method} CoverLetter</ModalHeader>
         <ModalBody>
             <Form>
                 <FormGroup>
@@ -40,7 +42,12 @@ const BlogForm = (props) => {
             </Form>
         </ModalBody>
         <ModalFooter>
-            <Button color="primary" onClick={create}>Create</Button>{' '}
+            {
+                isLogin() ?
+                <Button className="btn btn-success" onClick={create}>{method}</Button>:
+                <Button className="btn btn-secondary" disabled>Diable</Button>
+            }
+            {' '}
             <Button color="secondary" onClick={toggle}>Cancel</Button>
         </ModalFooter>
     </Modal>

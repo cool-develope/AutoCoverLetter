@@ -39,8 +39,7 @@ const NavHeader = (props) => {
                   <Button
                     className="btn btn-info"
                     onClick={() => {
-                      console.log('CREATE TRIGGERED - ', !isModalOpen);
-                      setCreate(!isModalOpen)
+                      setCreate(!isModalOpen);
                     }}
                   >
                     Create Letter

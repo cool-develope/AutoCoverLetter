@@ -3,18 +3,17 @@ import {
     Card, CardSubtitle, CardBody, CardTitle
 } from 'reactstrap';
 import CardText from 'reactstrap/lib/CardText';
-import { getUser } from "../utils/auth";
+import { convert } from '../utils/builder.js'
 
 const BlogCard = (props) => {
     const { letter, setLetter } = props;
-    const username = getUser()["name"];
 
     return (
         <Card className="my-1" onClick={() => setLetter(letter)}>
             <CardBody>
                 <CardTitle className="font-weight-bold">{ letter['title'] }</CardTitle>
-                <CardSubtitle className="font-italic">Created { letter['created_at'].substring(0, 10) } by { username }</CardSubtitle>
-                <CardText>{ letter['message'].substring(0, 150) } .....</CardText>
+                <CardSubtitle className="font-italic">Created { letter['created_at'].substring(0, 10) } by { letter.username }</CardSubtitle>
+                <CardText>{ convert(letter['message']).substring(0, 150) } .....</CardText>
             </CardBody>
         </Card>
     )
