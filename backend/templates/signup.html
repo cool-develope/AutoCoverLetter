@@ -4,8 +4,10 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <form method="POST" class="form-group" style="margin: 40px 35%;width: 30%">
+    <form method="POST" class="form-group" style="margin: 40px 37%;width: 26%">
+        {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-success">Register</button>
+        <p>If you have already an accoount? Click <a href="/auth/login/">here</a></p>
+        <button type="submit" class="btn btn-success">Register</button><a class="float-right my-2" href="/"><i class="fas fa-home"></i>home</a>
     </form>
 {% endblock %}

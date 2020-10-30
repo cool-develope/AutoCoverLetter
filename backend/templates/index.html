@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+  <input type='hidden' name="request_user" value="{{request.user}}@@@@{{request.user.pk}}"/>
   <div id="app">
     <!-- React will load here -->
   </div>
