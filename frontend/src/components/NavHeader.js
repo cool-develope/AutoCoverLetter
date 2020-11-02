@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Collapse,
   Navbar,
@@ -12,14 +12,16 @@ import {
   NavbarToggler
 } from "reactstrap";
 import { isLogin, getUser } from "../utils/auth";
+import { searchResult } from "../utils/builder";
 
 const NavHeader = (props) => {
-  const { isOpen: isModalOpen, setCreate } = props;
+  const { isOpen: isModalOpen, setCreate, setSearch, setFilter } = props;
   const [logged, setLogged] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [searchKey, setSearchKey] = useState("");
 
   const username = getUser()["name"];
-
+  const _text = useRef();  
   const toggle = () => setIsOpen(!isOpen);
 
   useEffect(() => {
@@ -50,12 +52,18 @@ const NavHeader = (props) => {
             <NavItem className="mx-2">
               {logged && <FormGroup className="my-2" check>
                 <Label check>
-                  <Input type="checkbox" onChange={e => console.log(e.target.value)} />{' '}My Letters
+                  <Input type="checkbox" onChange={() => {
+                    setFilter();
+                    setSearchKey("");
+                  }} />{' '}My Letters
                 </Label>
               </FormGroup>}
             </NavItem>
             <NavItem className="mx-2">
-              <Input type="text" name="search" id="search" size="35" placeholder="Search Key" onClick={e => console.log(e.target.value)} />
+              <Input type="text" name="search" id="search" size="35" placeholder="Search Key" onChange={e => {
+                setSearch(e.target.value);
+                setSearchKey(e.target.value);
+              }} value={ searchKey } />
             </NavItem>
           </Nav>
           {

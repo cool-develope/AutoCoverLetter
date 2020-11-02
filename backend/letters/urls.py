@@ -3,5 +3,5 @@ from .import views
 
 urlpatterns = [
     path('list/', views.letter_list),
-    path('detail/<int:pk>', views.letter_detail),
+    path('detail/<int:pk>/', views.letter_detail),
 ]
