@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
+import copy from "copy-to-clipboard";
 import { Jumbotron, Popover, PopoverBody, Button, Input } from 'reactstrap';
+
 import { getUser, isLogin } from '../utils/auth.js';
 import { convert } from '../utils/builder.js';
 import { useOnClickOutside } from '../utils/useClickOutside';
@@ -17,9 +19,8 @@ const BlogApp = (props) => {
 	const _text = useRef();
 
 	const copyText = () => {
-		const el = _text;
-		
-		navigator.clipboard.writeText(el.current.outerText);
+		const text = _text.current.outerText;
+		copy(text);
 	}
 
 	useOnClickOutside(_ref, () => {
@@ -50,13 +51,13 @@ const BlogApp = (props) => {
 				{
 					modify.map((element, i) => (
 						element.type === "_p_" ?
-							(<span key={"elementp_" + i}>{element.value}<br/></span>) :
+							(<span key={"elementp_" + i}>{element.value}<br /></span>) :
 							(element.type === "_div_" ?
 								(<span key={"elementdiv_" + i}>{element.value}</span>) :
 								(<span id={"Popover" + i} key={"Popover" + i}><b>{element.value}</b>
 									<Popover id={"popover_" + i} placement="bottom" target={"Popover" + i} toggle={() => setActivePopover(activePopover === i ? -1 : i)} isOpen={activePopover === i}>
 										<div ref={activePopover === i ? _ref : null}>
-											<PopoverBody><Input placeholder={ element.type } onKeyPress={e => onKeyUp(e, e.target.value, i)} size="50" autoFocus /></PopoverBody>
+											<PopoverBody><Input placeholder={element.type} onKeyPress={e => onKeyUp(e, e.target.value, i)} size="50" autoFocus /></PopoverBody>
 										</div>
 									</Popover></span>))
 					))
