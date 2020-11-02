@@ -7,3 +7,4 @@ __pycache__/
 # for javascript
 node_modules/
 yarn.lock
+static/
