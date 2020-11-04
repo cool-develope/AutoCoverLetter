@@ -114,9 +114,12 @@ const App = (props) => {
             (<Fragment>
                 <BlogForm method={method} formState={create} toggle={setCreate} letter={cletter} createLetter={createLetter} />
                 <NavHeader isOpen={create} setCreate={clickCreate} setSearch={keys => setSearch(keys)} setFilter={() => {
-                    if (!filter) setLetters(filterResult(allLetters));
-                    else setLetters(allLetters);
-                    setLetter(letters[0]);
+                    let _letters = null;
+                    if (!filter) _letters = filterResult(allLetters);
+                    else _letters = [...allLetters];
+                    setLetters(_letters);
+
+                    setLetter(_letters[0]);
                     setFilter(!filter);
                 }} />
                 <Row className="my-2 mx-2 h-100 overflow-hidden">
